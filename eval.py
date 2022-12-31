@@ -33,11 +33,34 @@ def Calc_func(P, V, Cord, t):
 
     return x/(c + 1e-25), y/(c + 1e-25)
 
+def Calc_func2(correct, P, V, Cord, t):
+    x = P[0][0] * (Cord[0] + V[0] * t) \
+        + P[0][1] * (Cord[1] + V[1] * t) \
+        + P[0][2] * (Cord[2] + V[2] * t) + P[0][3]
+
+    c = P[2][0] * (Cord[0] + V[0] * t) \
+        + P[2][1] * (Cord[1] + V[1] * t) \
+        + P[2][2] * (Cord[2] + V[2] * t) + P[2][3]
+
+    y = P[1][0] * (Cord[0] + V[0] * t) \
+        + P[1][1] * (Cord[1] + V[1] * t) \
+        + P[1][2] * (Cord[2] + V[2] * t) + P[1][3]
+    
+
+    x_abs = np.abs(x - c * correct[0])
+
+    y_abs = np.abs(y - c * correct[1])
+
+    return x_abs + y_abs
+
 
 def penalty(correct, P, V, Cord, t):
-    x, y = Calc_func(P, V, Cord, t)
+    # x, y = Calc_func(P, V, Cord, t)
 
-    return np.abs(x - correct[0]) + np.abs(y - correct[1])
+    f = Calc_func2(correct, P, V, Cord, t)
+
+    # return np.abs(x - correct[0]) + np.abs(y - correct[1])
+    return f
 
 
 if __name__ == '__main__':
